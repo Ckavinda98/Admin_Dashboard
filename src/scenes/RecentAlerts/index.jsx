@@ -1,79 +1,150 @@
-import { Box, useTheme } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+import {  useTheme } from "@mui/material";
+// import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import { mockDataInvoices } from "../../data/mockData";
+// import { mockDataInvoices } from "../../data/mockData";
 import Header from "../../components/Header";
+// import Table from 'react-bootstrap/Table';
+import { getAllRecords } from "../../admin/action/Tableone";
+import {  useState, useEffect } from "react";
 
-const RecentAlerts = () => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-  const columns = [
-    { field: "id", headerName: "ID" },
-    {
-      field: "index",
-      headerName: "Index Number",
-      flex: 1,
-      cellClassName: "name-column--cell",
-    },
-    {
-      field: "phone",
-      headerName: "Phone Number",
-      flex: 1,
-    },
-    {
-      field: "email",
-      headerName: "Email",
-      flex: 1,
-    },
-    {
-      field: "time",
-      headerName: "Time",
-      flex: 1,
-      
-    },
-    {
-      field: "date",
-      headerName: "Date",
-      flex: 1,
-    },
-  ];
+function Userdata()
+{
+    const [userData, setUserdata]= useState([]); 
+    useEffect( ()=>{
+        const getUserdata= async()=>{
+            const reqData= await fetch("http://localhost:9090/api/v1/tableone");
+            const resData= await reqData.json();
+            setUserdata(resData);
+           console.log(resData);
+        }
+        getUserdata();
+    },[]);
+ 
+    return(
+        <div className="mt-4">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              <th
+                scope="col"
+                
+              >
+                index
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase "
+              >
+                active
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase "
+              >
+                date
+              </th>
 
-  return (
-    <Box m="20px">
-      <Header title="Alerts" subtitle="List of Alerts" />
-      <Box
-        m="40px 0 0 0"
-        height="75vh"
-        sx={{
-          "& .MuiDataGrid-root": {
-            border: "none",
-          },
-          "& .MuiDataGrid-cell": {
-            borderBottom: "none",
-          },
-          "& .name-column--cell": {
-            color: colors.greenAccent[300],
-          },
-          "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: colors.blueAccent[700],
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: colors.primary[400],
-          },
-          "& .MuiDataGrid-footerContainer": {
-            borderTop: "none",
-            backgroundColor: colors.blueAccent[700],
-          },
-          "& .MuiCheckbox-root": {
-            color: `${colors.greenAccent[200]} !important`,
-          },
-        }}
-      >
-        <DataGrid checkboxSelection rows={mockDataInvoices} columns={columns} />
-      </Box>
-    </Box>
-  );
-};
+              <th
+                scope="col"
+                className="px-6 py-3 text-xs font-bold text-right text-gray-500 uppercase "
+              >
+                deployment
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-xs font-bold text-right text-gray-500 uppercase "
+              >
+                ns
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-xs font-bold text-right text-gray-500 uppercase "
+              >
+                prefix
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-xs font-bold text-right text-gray-500 uppercase "
+              >
+                pre
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-xs font-bold text-right text-gray-500 uppercase "
+              >
+                size
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-xs font-bold text-right text-gray-500 uppercase "
+              >
+                system
+              </th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-200">
+            {userData.map((item,index)=><tr>
+              <th
+                scope="col"
+                
+              >
+                {item.index}
+              </th>
+              <th
+                scope="col"
+                
+              >
+                {item.active}
+              </th>
+              <th
+                scope="col"
+                
+              >
+            {item.date}
+              </th>
 
-export default RecentAlerts;
+              <th
+                scope="col"
+                
+              >
+                {item.deployment}
+              </th>
+              <th
+                scope="col"
+                
+              >
+                {item.ns}
+              </th>
+              <th
+                scope="col"
+                
+              >
+                {item.prefix}
+              </th>
+              <th
+                scope="col"
+                
+              >
+                {item.pre}
+              </th>
+              <th
+                scope="col"
+                
+              >
+                {item.size}
+              </th>
+              <th
+                scope="col"
+                
+              >
+                system
+              </th>
+            </tr>) }
+          </tbody>
+        </table>
+      </div>
+    );
+}
+
+
+export default Userdata;

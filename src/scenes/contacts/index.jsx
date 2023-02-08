@@ -4,100 +4,90 @@ import { tokens } from "../../theme";
 import { mockDataContacts } from "../../data/mockData";
 import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
+import {  useState, useEffect } from "react";
 
-const Contacts = () => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
+function Userdata()
+{
+    const [userData, setUserdata]= useState([]); 
+    useEffect( ()=>{
+        const getUserdata= async()=>{
+            const reqData= await fetch("http://localhost:9090/api/v1/tabletwo");
+            const resData= await reqData.json();
+            setUserdata(resData);
+           console.log(resData);
+        }
+        getUserdata();
+    },[]);
+ 
+    return(
+        <div className="mt-4">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              <th
+                scope="col"
+                
+              >
+                Active
+              </th>
+              <th
+                scope="col"
+                
+              >
+                Index
+              </th>
+              <th
+                scope="col"
+                
+              >
+                Pri
+              </th>
 
-  const columns = [
-    { field: "id", headerName: "ID", flex: 0.5 },
-    { field: "registrarId", headerName: "Registrar ID" },
-    {
-      field: "name",
-      headerName: "Name",
-      flex: 1,
-      cellClassName: "name-column--cell",
-    },
-    {
-      field: "age",
-      headerName: "Age",
-      type: "number",
-      headerAlign: "left",
-      align: "left",
-    },
-    {
-      field: "phone",
-      headerName: "Phone Number",
-      flex: 1,
-    },
-    {
-      field: "email",
-      headerName: "Email",
-      flex: 1,
-    },
-    {
-      field: "address",
-      headerName: "Address",
-      flex: 1,
-    },
-    {
-      field: "city",
-      headerName: "City",
-      flex: 1,
-    },
-    {
-      field: "zipCode",
-      headerName: "Zip Code",
-      flex: 1,
-    },
-  ];
+              <th
+                scope="col"
+                
+              >
+                Size
+              </th>
+              
+              
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-200">
+            {userData.map((item,index)=><tr>
+              <th
+                scope="col"
+                
+              >
+                {item.active}
+              </th>
+              <th
+                scope="col"
+                
+              >
+                {item.index}
+              </th>
+              <th
+                scope="col"
+                
+              >
+            {item.pri}
+              </th>
 
-  return (
-    <Box m="20px">
-      <Header
-        title="CONTACTS"
-        subtitle="List of Contacts for Future Reference"
-      />
-      <Box
-        m="40px 0 0 0"
-        height="75vh"
-        sx={{
-          "& .MuiDataGrid-root": {
-            border: "none",
-          },
-          "& .MuiDataGrid-cell": {
-            borderBottom: "none",
-          },
-          "& .name-column--cell": {
-            color: colors.greenAccent[300],
-          },
-          "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: colors.blueAccent[700],
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: colors.primary[400],
-          },
-          "& .MuiDataGrid-footerContainer": {
-            borderTop: "none",
-            backgroundColor: colors.blueAccent[700],
-          },
-          "& .MuiCheckbox-root": {
-            color: `${colors.greenAccent[200]} !important`,
-          },
-          "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-            color: `${colors.grey[100]} !important`,
-          },
-        }}
-      >
-        <DataGrid
-          rows={mockDataContacts}
-          columns={columns}
-          components={{ Toolbar: GridToolbar }}
-        />
-      </Box>
-    </Box>
-  );
-};
+              <th
+                scope="col"
+                
+              >
+                {item.size}
+              </th>
+              
+             
+            </tr>) }
+          </tbody>
+        </table>
+      </div>
+    );
+}
 
-export default Contacts;
+
+export default Userdata;

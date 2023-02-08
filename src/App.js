@@ -4,7 +4,7 @@ import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard";
 import Users from "./scenes/Users";
-import RecentAlerts from "./scenes/RecentAlerts";
+
 import Contacts from "./scenes/contacts";
 import Bar from "./scenes/bar";
 import Form from "./scenes/form";
@@ -15,6 +15,14 @@ import Geography from "./scenes/geography";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import Calendar from "./scenes/calendar/calendar";
+
+
+import axios from "axios";
+// import Userdata from './src/RecentAlerts/Userdata';
+import RecentAlerts from "./scenes/RecentAlerts/index";
+
+import Table from "./Table";
+import "./App.css";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -47,5 +55,10 @@ function App() {
     </ColorModeContext.Provider>
   );
 }
+
+
+
+
+
 
 export default App;

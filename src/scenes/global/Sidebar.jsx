@@ -133,21 +133,22 @@ const Sidebar = () => {
               Data
             </Typography>
             <Item
-              title="Manage User"
+              title="crm-es-product-data"
+              
               to="/Users"
               icon={<PeopleOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Contacts Information"
+              title="crm-es-invalid-index"
               to="/contacts"
               icon={<ContactsOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Alert Records"
+              title="crm-es-all-index"
               to="/RecentAlerts"
               icon={<ReceiptOutlinedIcon />}
               selected={selected}
