@@ -1,77 +1,59 @@
-import { Label } from "@mui/icons-material";
-import { dividerClasses } from "@mui/material";
-import { type } from "@testing-library/user-event/dist/type";
-import React, { useState, useHistory } from "react";
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import "./Login.css";
+import { useNavigate } from "react-router-dom";
 
-function Login() {
-  const [emailInput, setEmailInput] = useState("");
-  const [passwordInput, setPasswordInput] = useState("");
+export default function Login({ setUser }) {
+  const [data, setData] = useState({});
+  const { name, password } = data;
 
-  const history = useHistory();
-
-  const handleEmailChange = (e) => {
-    setEmailInput(e.target.value);
-  };
-
-  const handlePasswordChange = (e) => {
-    setPasswordInput(e.target.value);
-  };
-
-  const handleLoginSubmit = (e) => {
+  const handleChange = (e) => {
     e.preventDefault();
-    let hardcodedCred = {
-      email: "email@email.com",
-      password: "password123",
-    };
+    const value = e.target.value;
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
 
-    if (
-      emailInput == hardcodedCred.email &&
-      passwordInput == hardcodedCred.password
-    ) {
-      //combination is good. Log them in.
-      //this token can be anything. You can use random.org to generate a random string;
-      const token = "123456abcdef";
-      sessionStorage.setItem("auth-token", token);
-      //go to www.website.com/todo
-      history.push("/todo");
+  const navigate = useNavigate();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(name, password);
+
+    if (name === "admin" && password === "123") {
+      setUser(true);
+      navigate("/dashboard");
     } else {
-      //bad combination
-      alert("wrong email or password combination");
+      alert("Unsuccessful");
     }
   };
 
   return (
-    <div className="login-page">
-      <h2>Login In</h2>
-      <form autoComplete="off" onSubmit={handleLoginSubmit}>
-        <div className="form-group">
+    <div className="login-wrapper">
+      <h1>Please Log In</h1>
+      <form onSubmit={handleSubmit}>
+        <label>
+          <p>Username</p>
           <input
-            type="email"
-            className="form-control"
-            id="exampleInputEmail1"
-            aria-describedby="emailHelp"
-            placeholder="Enter email"
-            value={emailInput}
-            onChange={handleEmailChange}
+            type="text"
+            name="name"
+            value={name}
+            onChange={handleChange}
+            required
           />
-        </div>
-        <div className="form-group">
+        </label>
+        <label>
+          <p>Password</p>
           <input
             type="password"
-            autoComplete="new-password"
-            className="form-control"
-            id="exampleInputPassword1"
-            placeholder="Password"
-            value={passwordInput}
-            onChange={handlePasswordChange}
+            name="password"
+            value={password}
+            onChange={handleChange}
+            required
           />
+        </label>
+        <div>
+          <button type="submit">Submit</button>
         </div>
-        <button type="submit" className="btn btn-primary">
-          Submit
-        </button>
       </form>
     </div>
   );
 }
-
-export default Login;

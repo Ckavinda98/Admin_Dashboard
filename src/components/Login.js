@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import "./Login.css";
+import { useNavigate } from "react-router-dom";
+import Dashboard from "../scenes/dashboard";
 
-export default function Login({ setToken }) {
+export default function Login({ setUser }) {
   const [data, setData] = useState({});
   const { name, password } = data;
 
@@ -17,10 +19,16 @@ export default function Login({ setToken }) {
     console.log(name, password);
 
     if (name === "admin" && password === "123") {
-      alert("Successful");
+      navigate("/dashboard");
     } else {
       alert("Unsuccessful");
+      navigate("/session-timed-out");
     }
+  };
+
+  const navigate = useNavigate();
+  const handlesubmit = () => {
+    navigate("/dashboard");
   };
 
   return (
@@ -40,7 +48,7 @@ export default function Login({ setToken }) {
         <label>
           <p>Password</p>
           <input
-            type="text"
+            type="password"
             name="password"
             value={password}
             onChange={handleChange}
@@ -54,6 +62,3 @@ export default function Login({ setToken }) {
     </div>
   );
 }
-Login.propTypes = {
-  setToken: PropTypes.func.isRequired,
-};
